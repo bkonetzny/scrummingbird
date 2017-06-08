@@ -1,0 +1,139 @@
+<div ng-controller="DashboardController">
+  <md-toolbar>
+    <h2 class="md-toolbar-tools">
+      <img src="assets/images/dart-bird.svg"> <span ng-controller="ChannelController">{{data.channel.name}}</span>
+      <div flex></div>
+      <md-button ng-click="toggleMenu()">
+        <ng-md-icon icon="more_vert"></ng-md-icon>
+      </md-button>
+    </h2>
+  </md-toolbar>
+  <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="menu">
+    <md-toolbar class="md-theme-light">
+      <h1 class="md-toolbar-tools">Options</h1>
+    </md-toolbar>
+    <md-content class="md-padding">
+      <md-button>
+        <ng-md-icon icon="sync"></ng-md-icon> Sync with Jira
+      </md-button>
+      <md-switch ng-model="data.showJoinCard">
+        Show Join Card
+      </md-switch>
+    </md-content>
+  </md-sidenav>
+</div>
+<div layout="row" layout-sm="column" ng-controller="UserController">
+  <div flex>
+    <md-content>
+      <md-card style="min-height: 340px;">
+        <md-card-content>
+          <h2 ng-controller="TopicController">Cards for {{getActive().title}}</h2>
+          <p>
+            <div ng-if="!allUsersReady()">
+              <div layout="row" layout-fill layout-margin>
+                <div flex>
+                  Results will be shown after all users have voted. Waiting for <strong>{{waitingForText()}}</strong> to vote.<br/>
+                  <md-button class="md-raised md-primary" ng-show="hasVotes()" ng-click="setForceRenderCards()">Skip waiting and show results.</md-button>
+                </div>
+                <div ng-controller="DashboardController">
+                  <div flex ng-show="data.showJoinCard">
+                    You can join this room:<br/>
+                    <a href="{{data.joinHash}}">{{data.joinHash}}</a><br/>
+                    <qr text="data.joinQRcode" size="150"></qr>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div ng-if="allUsersReady()">
+              <ul id="cards">
+                <li ng-repeat="card in data.cards" class="{{card.classes}}" ng-click="icon = 'check_circle'; fill = 'rgb(76, 175, 80)'; selectCard(card)"
+                    ng-class="{hover: hover}"
+                    ng-init="icon = 'done'; fill = 'rgb(255, 255, 255)'; hover = false" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+                  <div class="card">
+                    <span>{{card.value}}</span>
+                    <ng-md-icon icon="{{icon}}" size="60" style="color: {{fill}}"></ng-md-icon>
+                  </div>
+                  <div class="users">
+                    <md-button class="md-fab user-item" ng-repeat="user in card.users" style="background-color: {{user.color}};">
+                      <span>{{user.name_short}}</span>
+                      <img gravatar-src="'{{user.name}}'" gravatar-size="100" gravatar-default="blank">
+                      <md-tooltip>{{user.name}}</md-tooltip>
+                    </md-button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </p>
+        </md-card-content>
+      </md-card>
+    </md-content>
+  </div>
+</div>
+
+<div layout="row" layout-sm="column" ng-controller="UserController" class="user-grid">
+  <div flex>
+    <md-content>
+      <md-card>
+        <md-card-content>
+          <h2>Users</h2>
+          <p>
+            <md-button class="md-fab user-item" ng-repeat="user in data.users" ng-class="{ready: isReady(user)}" style="background-color: {{user.color}};">
+              <span>{{user.name_short}}</span>
+              <img gravatar-src="'{{user.name}}'" gravatar-size="100" gravatar-default="blank">
+              <md-tooltip>{{user.name}}</md-tooltip>
+            </md-button>
+          </p>
+        </md-card-content>
+      </md-card>
+    </md-content>
+  </div>
+</div>
+
+<div layout="row" layout-sm="column">
+  <div flex>
+    <md-content ng-controller="TopicController">
+      <md-card>
+        <md-card-content>
+          <div ng-if="data.issueMode === 'manual'">
+            <h2>Topics</h2>
+            <h2 ng-if="data.issueMode === 'jira'">Jira Issues</h2>
+            <md-button class="md-fab md-primary" aria-label="Add Topic" ng-click="showAddTopicForm()" style="position: absolute; right: 20px; bottom: 20px;">
+              <ng-md-icon icon="add"></ng-md-icon>
+            </md-button>
+          </div>
+          <div ng-if="data.issueMode === 'jira'">
+            <h2>Jira Issues</h2>
+            <md-button class="md-primary md-raised" ng-click="jiraSelectSprint()">Select Sprint</md-button>
+          </div>
+          <table width="100%" ng-if="data.topics.length">
+            <tr>
+              <th>Topic</th>
+              <th>Storypoints</th>
+              <th>Options</th>
+            </tr>
+            <tr ng-repeat="topic in data.topics" ng-class="{active: topic.active}">
+              <td>
+                <a ng-if="topic.url" href="{{topic.url}}" target="_blank">{{topic.title}}</a>
+                <span ng-if="!topic.url">{{topic.title}}</span>
+              </td>
+              <td>{{topic.storypoints}}</td>
+              <td>
+                <md-button ng-click="setActive(topic)" ng-disabled="topic.active">Set active</md-button>
+                <md-button class="md-warn" ng-if="data.issueMode === 'manual'" ng-click="removeTopic(topic)" ng-disabled="topic.active">Remove</md-button>
+              </td>
+            </tr>
+            <tr>
+              <td>Total:</td>
+              <td>{{totalStorypoints()}}</td>
+              <td></td>
+            </tr>
+          </table>
+          <p ng-if="!data.topics.length">
+            <span ng-if="data.issueMode === 'manual'">No topics created.</span>
+            <span ng-if="data.issueMode === 'jira'">No topics loaded.</span>
+          </p>
+        </md-card-content>
+      </md-card>
+    </md-content>
+  </div>
+</div>

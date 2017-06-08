@@ -1,0 +1,11 @@
+{
+  "name": "scrummingbird",
+  "icons": [
+    {
+      "src": "/assets/images/dart-bird.svg"
+    }
+  ],
+  "start_url": "../index.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}

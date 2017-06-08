@@ -1,0 +1,44 @@
+<md-toolbar>
+  <h2 class="md-toolbar-tools">
+    <img src="assets/images/dart-bird.svg"> <span>Scrummingbird</span>
+  </h2>
+</md-toolbar>
+<div layout="row" layout-align="center center" layout-fill ng-controller="ChannelController">
+  <div style="width: 400px;">
+    <md-content>
+      <md-card>
+        <md-card-content>
+          <h2>Create new channel</h2>
+          <form name="channelForm" ng-submit="createChannel(channelForm.$valid, data)">
+            <md-input-container>
+              <label>Name</label>
+              <input name="name" ng-model="data.channel.name" required>
+              <ng-messages for="channelForm.name.$error" include="templates/form-errors.inc.html">
+            </md-input-container>
+            <md-radio-group ng-model="data.channel.issue_mode">
+              <md-radio-button value="manual">Manual</md-radio-button>
+              <md-radio-button value="jira">Jira</md-radio-button>
+            </md-radio-group>
+            <div ng-if="data.channel.issue_mode == 'jira'">
+              <md-input-container>
+                <label>Jira Host</label>
+                <input ng-model="data.channel.jira.host">
+              </md-input-container>
+              <md-input-container>
+                <label>Jira Username</label>
+                <input ng-model="data.channel.jira.username">
+              </md-input-container>
+              <md-input-container>
+                <label>Jira Password</label>
+                <input ng-model="data.channel.jira.password" type="password">
+              </md-input-container>
+            </div>
+            <div layout="row" layout-align="end center">
+              <md-button class="md-raised md-primary">Create</md-button>
+            </div>
+          </form>
+        </md-card-content>
+      </md-card>
+    </md-content>
+  </div>
+</div>

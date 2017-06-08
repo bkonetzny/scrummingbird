@@ -1,0 +1,28 @@
+<div ng-controller="ClientController" layout-fill>
+  <md-toolbar>
+    <h2 class="md-toolbar-tools">
+      <img src="assets/images/dart-bird.svg"> <span ng-controller="ChannelController">{{data.channel.name}}</span>
+    </h2>
+  </md-toolbar>
+  <md-content ng-if="!data.currentVote" layout-fill style="background-color: #fff;">
+    <!-- <h2>{{data.activeIssue.name}}</h2> -->
+    <md-grid-list
+        md-cols-sm="3" md-cols-md="8" md-cols-gt-md="12"
+        md-row-height-gt-md="1:1" md-row-height="4:3"
+        md-gutter-gt-md="16px" md-gutter-gt-sm="8px" md-gutter="4px">
+      <md-grid-tile ng-repeat="item in data.items">
+        <figure>
+          <md-button class="md-fab" aria-label="Select {{item.value}}" ng-click="voteTopic(item)" ng-bind-html="item.label"></md-button>
+        </figure>
+      </md-grid-tile>
+    </md-grid-list>
+  </md-content>
+  <md-content ng-if="data.currentVote" layout-fill layout-align="center center" layout="row" style="background-color: rgb(24, 255, 255); min-height: 400px;">
+    <div style="font-size: 120px;">
+      {{data.currentVote.value}}
+    </div>
+    <md-button class="md-fab md-primary" aria-label="Back" ng-click="unvoteTopic()" style="position: absolute; left: 20px; bottom: 20px;">
+      <ng-md-icon icon="arrow_back"></ng-md-icon>
+    </md-button>
+  </md-content>
+</div>

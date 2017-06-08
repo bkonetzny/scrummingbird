@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="scrummingbirdApp">
+  <head>
+    <meta charset="utf8" />
+    <title ng-bind="$root.pageTitle + ' - scrummingbird'">scrummingbird</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#E91E63">
+    <link rel="stylesheet" type="text/css" href="/bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=RobotoDraft:400,500,700,400italic">
+    <link rel="icon" href="/assets/images/dart-bird.svg">
+    <link rel="manifest" href="/assets/manifest.json">
+  </head>
+  <body>
+    <div ng-view layout-fill></div>
+
+    <!-- Misc -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-route/angular-route.js"></script>
+    <script src="/bower_components/angular-messages/angular-messages.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/underscore/underscore.js"></script>
+
+    <!-- Angular Material -->
+    <script src="/bower_components/angular-aria/angular-aria.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/angular-material/angular-material.js"></script>
+
+    <!-- Angular Material Icons -->
+    <script src="/bower_components/angular-material-icons/angular-material-icons.js"></script>
+    <script src="/bower_components/svg-morpheus/compile/minified/svg-morpheus.js"></script>
+
+    <!-- Angular QR -->
+    <script src="/bower_components/qrcode/lib/qrcode.min.js"></script>
+    <script src="/bower_components/angular-qr/angular-qr.min.js"></script>
+
+    <!-- Angular Gravatar -->
+    <script src="/bower_components/angular-gravatar/build/angular-gravatar.js"></script>
+
+    <!-- scrummingbird -->
+    <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/services/socket.service.js"></script>
+    <script src="/assets/js/services/channel.service.js"></script>
+    <script src="/assets/js/services/dashboard.service.js"></script>
+    <script src="/assets/js/services/user.service.js"></script>
+    <script src="/assets/js/services/topic.service.js"></script>
+    <script src="/assets/js/controllers/channel.controller.js"></script>
+    <script src="/assets/js/controllers/dashboard.controller.js"></script>
+    <script src="/assets/js/controllers/user.controller.js"></script>
+    <script src="/assets/js/controllers/topic.controller.js"></script>
+    <script src="/assets/js/controllers/client.controller.js"></script>
+  </body>
+</html>
